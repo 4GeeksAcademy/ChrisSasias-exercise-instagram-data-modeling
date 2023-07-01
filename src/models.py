@@ -1,8 +1,10 @@
 import os
 import sys
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy import create_engine
+from eralchemy2 import render_er
+
 
 Base = declarative_base()
 
@@ -43,3 +45,9 @@ class Follower(Base):
     following = relationship('User', foreign_keys=[following_id], back_populates='following')
     created_at = Column(DateTime, nullable=False)
 
+try:
+    result = render_er(Base, 'diagram.png')
+    print("Success! Check the diagram.png file")
+except Exception as e:
+    print("There was a problem genering the diagram")
+    raise e
